@@ -10,7 +10,7 @@ const UvsCities = {
     ODESSA: 'ODESSA',
     KYIV: 'KYIV',
     LVIV: 'LVIV',
-    OTHER: ''
+    OTHER: 'OTHER'
 }
 
 //cities initialization
@@ -30,8 +30,8 @@ class UvsEvent {
         this.description = eventDto.description;
         this.imageUrl = eventDto.cover[0].url;
 
-        this.startsOn = eventDto.startsOn;
-        this.endsOn = eventDto.endsOn;
+        this.startsOn = new Date(eventDto.startsOn);
+        this.endsOn = new Date(eventDto.endsOn);
 
         this.priceInfo = eventDto.priceInfo;
         this.eventType = eventDto.eventType;
@@ -53,30 +53,6 @@ function getEvents() {
     return $.Deferred().resolve(fakeEventsResponse).promise();;
 }
 
-function doEventsFiltering() {
-    const cityName = citiesSelect.value;
-    const shouldShowVolunteeringEvents = showVolunteeringEvents.checked;
-    const shouldShowOrdinaryEvents = showOrdinaryEvents.checked;
-
-    //filtering by city and checkboxes
-    const now = moment();
-    let filteredEvents = events
-        .filter(e => e.cityName === cityName)
-        .filter(e => e.startsOn.isAfter(now));
-
-    if (!shouldShowVolunteeringEvents) {
-        filteredEvents = filteredEvents.filter(e => e.eventType !== UvsEventTypes.VOLUNTEERING);
-    }
-    if (!shouldShowOrdinaryEvents) {
-        filteredEvents = filteredEvents.filter(e => e.eventType !== UvsEventTypes.ORDINARY);
-    }
-
-    //append created markup to events container element in DOM, hazardous because innerHTML usage!
-    const eventsMarkup = filteredEvents.map(createEventMarkup).join(""); //because map returns array that is devided by commas
-    eventsElement.innerHTML = eventsMarkup;
-}
-
-
 //Angularjs
 
 //sanitize is for ng-bind-html directive (unsafe)
@@ -84,8 +60,13 @@ let app = angular.module("app", ['ngSanitize']);
 app.controller("EventsController", EventsController);
 
 function EventsController($scope) {
+    //constants
+    $scope.dateFormat = 'dd MMMM, HH:mm';
+
+    //filtering
     $scope.showVolunteeringEvents = true;
     $scope.showOrdinaryEvents = true;
+    $scope.selectedCityName;
 
     $scope.cities = [
         new UvsCity(1, UvsCities.ODESSA, 'Одеса'),
@@ -93,10 +74,28 @@ function EventsController($scope) {
         new UvsCity(3, UvsCities.LVIV, 'Львів'),
         new UvsCity(4, UvsCities.OTHER, 'Інші міста')
     ];
+    $scope.filteredEvents = [];
 
-    $scope.selectedCity;
+    $scope.filterEvents = function () {
+        const cityName = $scope.selectedCityName;
+        const shouldShowVolunteeringEvents = $scope.showVolunteeringEvents;
+        const shouldShowOrdinaryEvents = $scope.showOrdinaryEvents;
 
-    $scope.dateFormat = 'dd MMMM, HH:mm';
+        //filtering by date, city and checkboxes
+        const now = new Date();
+        let filteredEvents = $scope.events
+            .filter(e => e.cityName === cityName)
+            .filter(e => e.startsOn > now);
+
+        if (!shouldShowVolunteeringEvents) {
+            filteredEvents = filteredEvents.filter(e => e.eventType !== UvsEventTypes.VOLUNTEERING);
+        }
+        if (!shouldShowOrdinaryEvents) {
+            filteredEvents = filteredEvents.filter(e => e.eventType !== UvsEventTypes.ORDINARY);
+        }
+
+        $scope.filteredEvents = filteredEvents;
+    }
 
     getEvents()
         .done(response => {

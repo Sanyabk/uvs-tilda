@@ -9,29 +9,29 @@
 
     <!-- Angular.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-sanitize.js    "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-sanitize.js"></script>
 </head>
 
 
 <body ng-app="app">
     <div class="container" ng-controller="EventsController">
         <div class="events-search-options">
-            <select ng-model="selectedCity" class="form-control" style="width:200px">
-                <option ng-repeat="city in cities" value="{{city.id}}}}">{{city.name}}}}</option>
+            <select ng-model="selectedCityName" ng-change="filterEvents()" class="form-control" style="width:200px">
+                <option ng-repeat="city in cities" value="{{city.name}}">{{city.localName}}</option>
             </select>
 
             <div class="form-check-inline">
-                <input ng-model="showVolunteeringEvents" class="form-check-input" type="checkbox" />
+                <input ng-model="showVolunteeringEvents" ng-change="filterEvents()" class="form-check-input" type="checkbox" />
                 <label class="form-check-label" for="showVolunteeringEvents">Волонтерські акції</label>
             </div>
 
             <div class="form-check-inline">
-                <input ng-model="showOrdinaryEvents" class="form-check-input" type="checkbox">
+                <input ng-model="showOrdinaryEvents" ng-change="filterEvents()" class="form-check-input" type="checkbox">
                 <label class="form-check-label" for="showOrdinaryEvents">Події</label>
             </div>
         </div>
 
-        <div ng-repeat="event in events">
+        <div ng-repeat="event in filteredEvents">
             <div class="card event-card">
                 <img class="card-img-top" ng-src="{{event.imageUrl}}" alt="Event card image cap">
                 <div class="card-body">
@@ -66,7 +66,8 @@
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-
+    
+    <!-- Custom js -->
     <!-- <script src="/script.js" type="module"></script> -->
     <script src="/script.ng.js" type="module"></script>
 </body>
