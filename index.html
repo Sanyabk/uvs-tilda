@@ -9,6 +9,7 @@
 
     <!-- Angular.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-sanitize.js    "></script>
 </head>
 
 
@@ -16,7 +17,7 @@
     <div class="container" ng-controller="EventsController">
         <div class="events-search-options">
             <select ng-model="selectedCity" class="form-control" style="width:200px">
-                <option ng-repeat="city in cities" value="{{city.id}}">{{city.name}}</option>
+                <option ng-repeat="city in cities" value="{{city.id}}}}">{{city.name}}}}</option>
             </select>
 
             <div class="form-check-inline">
@@ -30,36 +31,44 @@
             </div>
         </div>
 
-        <div id="events"></div>
+        <div ng-repeat="event in events">
+            <div class="card event-card">
+                <img class="card-img-top" ng-src="{{event.imageUrl}}" alt="Event card image cap">
+                <div class="card-body">
+                    <p>
+                        <strong>Початок:</strong>
+                        <i>{{event.startsOn | date: dateFormat}}</i>
+                    </p>
+                    <p>
+                        <strong>Закінчення:</strong>
+                        <i>{{event.endsOn | date: dateFormat}}</i>
+                    </p>
+                    <p>
+                        <strong>Де:</strong>
+                        <i>
+                            <a target="_blank" ng-href="{{event.placeHref}}">{{event.placeName}}</a>
+                        </i>
+                    </p>
+                    <p class="card-text">
+                        <strong>Вартість:</strong>
+                        <i>{{event.priceInfo}}</i>
+                    </p>
+                    <h4 class="card-title">{{event.title}}</h4>
+                    <p class="card-text" ng-bind-html="event.description"></p>
+                    <a target="_blank" href="{{event.urlToAttend}}" class="btn btn-primary">Зареєструватися!</a>
+                    <i>
+                        <a target="_blank" href="{{event.urlAbout}}" class="url-about">Подробицi</a>
+                    </i>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
-    <!-- Moment.js and Ukrainian locale -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/locale/uk.js"></script>
-
-
     <!-- <script src="/script.js" type="module"></script> -->
-    <script>
-        let app = angular.module("app", []);
-
-        app.controller("EventsController", EventsController);
-
-        function EventsController($scope) {
-            $scope.showVolunteeringEvents = true;
-            $scope.showOrdinaryEvents = true;
-
-            $scope.cities = [
-                { id: 1, name: 'Odessa' },
-                { id: 2, name: 'Kyiv' },
-                { id: 3, name: 'Lviv' },
-            ]
-
-            $scope.selectedCity;
-        };
-    </script>
+    <script src="/script.ng.js" type="module"></script>
 </body>
 
 </html>
