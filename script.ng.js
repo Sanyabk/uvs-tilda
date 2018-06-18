@@ -1,4 +1,4 @@
-import { fakeEventsResponse } from './fakeApi.js';
+//import { fakeEventsResponse } from './fakeApi.js';
 
 //enums
 const UvsEventTypes = {
@@ -47,7 +47,7 @@ class UvsEvent {
 
 function getEvents() {
     //GET events from Airtable
-     return $.get('http://p.ptrvch.com/get_uvs_events');
+    return $.get('http://p.ptrvch.com/get_uvs_events');
 
     //IMPORTANT: this line fakes API response!
     //return $.Deferred().resolve(fakeEventsResponse).promise();;
@@ -75,9 +75,14 @@ function EventsController($scope) {
     $scope.showOrdinaryEvents = true;
     $scope.selectedCity = $scope.cities[0];
 
+    $scope.events = [];
     $scope.filteredEvents = [];
-    $scope.thereAreFilteredEvents = () => $scope.filteredEvents.length > 0;
 
+    $scope.thereAreFilteredEvents = () => $scope.filteredEvents.length > 0;
+    $scope.thereAreEventsInSelectedCity = () => {
+        const selectedCityName = $scope.selectedCity.name;
+        return $scope.events.filter(e => e.cityName === selectedCityName).length > 0;
+    }
 
     $scope.filterEvents = function () {
         const cityName = $scope.selectedCity.name;
@@ -94,16 +99,13 @@ function EventsController($scope) {
                     ? event => event.cityName === cityName
                     : event => !notOtherCities.includes(event.cityName)
             },
-            inFuture: event => event.startsOn > now,
             isNotVolunteering: event => event.eventType !== UvsEventTypes.VOLUNTEERING,
             isNotOrdinaryEvent: event => event.eventType !== UvsEventTypes.ORDINARY
         }
 
-        //filtering by date, city and checkboxes
-        const now = new Date();
+        //filtering city and checkboxes
         let filteredEvents = $scope.events
-            .filter(filterFunctions.byCity()) //should be called manually to return event city filtering function
-            .filter(filterFunctions.inFuture);
+            .filter(filterFunctions.byCity()); //should be called manually to return event city filtering function
 
         if (!shouldShowVolunteeringEvents) filteredEvents = filteredEvents.filter(filterFunctions.isNotVolunteering);
         if (!shouldShowOrdinaryEvents) filteredEvents = filteredEvents.filter(filterFunctions.isNotOrdinaryEvent);
@@ -113,10 +115,12 @@ function EventsController($scope) {
 
     getEvents()
         .done(response => {
+            const now = new Date();
             const eventDtos = response.map(o => o.fields);
             $scope.events = eventDtos
                 .filter(e => e.onSite)
                 .map(e => new UvsEvent(e))
+                .filter(e => e.startsOn > now)
                 .sort((a, b) => a.startsOn > b.startsOn);
 
             $scope.filterEvents(); //manual filtering

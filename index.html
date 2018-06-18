@@ -8,7 +8,6 @@
 
     <!-- Bootrstrap 4 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/styles.css" />
 
@@ -18,71 +17,76 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-sanitize.js"></script>
 </head>
 
-
-<body ng-app="app" style="min-width: 350px;">
-    <div class="container" ng-controller="EventsController" ng-cloak>
-        <div class="row">
-            <div class="col-xs-12 col-lg-3">
-                <select ng-options="city as city.localName for city in cities" ng-model="selectedCity" ng-change="filterEvents()" class="form-control">
-                </select>
-            </div>
-            <div class="col-xs-12 col-lg-9">
-                <div class="form-check-inline">
-                    <input ng-model="showVolunteeringEvents" ng-change="filterEvents()" class="form-check-input" type="checkbox" />
-                    <label class="form-check-label" for="showVolunteeringEvents">Волонтерські акції</label>
+<body>
+    <div ng-app="app" style="min-width: 350px;">
+        <br /> <!-- To create space between Tilda blocks -->
+        <div class="container" ng-controller="EventsController" ng-cloak>
+            <div class="row">
+                <div class="col-xs-12 col-lg-3">
+                    <select ng-options="city as city.localName for city in cities" ng-model="selectedCity" ng-change="filterEvents()" class="form-control">
+                    </select>
                 </div>
+                <div ng-show="thereAreEventsInSelectedCity()" class="col-xs-12 col-lg-9">
+                    <div class="form-check-inline">
+                        <input ng-model="showVolunteeringEvents" ng-change="filterEvents()" class="form-check-input" type="checkbox" />
+                        <label class="form-check-label" for="showVolunteeringEvents">Волонтерські акції</label>
+                    </div>
 
-                <div class="form-check-inline">
-                    <input ng-model="showOrdinaryEvents" ng-change="filterEvents()" class="form-check-input" type="checkbox">
-                    <label class="form-check-label" for="showOrdinaryEvents">Події</label>
-                </div>
-            </div>
-        </div>
-        <br />
-
-        <div class="row">
-            <div ng-repeat="event in filteredEvents" class="col-xs-12 col-lg-4">
-                <div class="card event-card">
-                    <img class="card-img-top" ng-src="{{event.imageUrl}}" alt="Event card image cap">
-                    <div class="card-body">
-                        <p>
-                            <strong>Початок:</strong>
-                            <i>{{event.startsOn | date: dateFormat}}</i>
-                        </p>
-                        <p ng-show="event.endsOn">
-                            <strong>Закінчення:</strong>
-                            <i>{{event.endsOn | date: dateFormat}}</i>
-                        </p>
-                        <p>
-                            <strong>Де:</strong>
-                            <i>
-                                <a target="_blank" ng-href="{{event.placeHref}}">{{event.placeName}}</a>
-                            </i>
-                        </p>
-                        <p class="card-text">
-                            <strong>Вартість:</strong>
-                            <i>{{event.priceInfo}}</i>
-                        </p>
-                        <h4 class="card-title">{{event.title}}</h4>
-                        <p class="card-text" ng-bind-html="event.description"></p>
-                        <a target="_blank" ng-href="{{event.urlToAttend}}" class="btn btn-primary">Зареєструватися!</a>
-                        <i>
-                            <a target="_blank" ng-href="{{event.urlAbout}}" class="url-about">Подробицi</a>
-                        </i>
+                    <div class="form-check-inline">
+                        <input ng-model="showOrdinaryEvents" ng-change="filterEvents()" class="form-check-input" type="checkbox">
+                        <label class="form-check-label" for="showOrdinaryEvents">Події</label>
                     </div>
                 </div>
             </div>
-        </div>
-        <br />
+            <br />
 
-        <div ng-hide="thereAreFilteredEvents()" class="row">
-            <div class="col-12">
-                <p>Тут поки що немає подій.</p>
+            <div class="row">
+                <div ng-repeat="event in filteredEvents" class="col-xs-12 col-lg-4">
+                    <div class="card event-card">
+                        <img class="card-img-top" ng-src="{{event.imageUrl}}" alt="Event card image cap">
+                        <div class="card-body">
+                            <p>
+                                <strong>Початок:</strong>
+                                <i>{{event.startsOn | date: dateFormat}}</i>
+                            </p>
+                            <p ng-show="event.endsOn">
+                                <strong>Закінчення:</strong>
+                                <i>{{event.endsOn | date: dateFormat}}</i>
+                            </p>
+                            <p>
+                                <strong>Де:</strong>
+                                <i>
+                                    <a target="_blank" ng-href="{{event.placeHref}}" class="uvs-link">{{event.placeName}}</a>
+                                </i>
+                            </p>
+                            <p class="card-text">
+                                <strong>Вартість:</strong>
+                                <i>{{event.priceInfo}}</i>
+                            </p>
+                            <h4 class="card-title">{{event.title}}</h4>
+                            <p class="card-text" ng-bind-html="event.description"></p>
+                            <a target="_blank" ng-href="{{event.urlToAttend}}" class="btn btn-primary">
+                                <span class="text-white">Зареєструватися!</span>
+                            </a>
+                            <i>
+                                <a target="_blank" ng-href="{{event.urlAbout}}" class="url-about uvs-link">Подробицi</a>
+                            </i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+
+            <div ng-hide="thereAreFilteredEvents() || thereAreEventsInSelectedCity()" class="row">
+                <div class="col-12">
+                    <p>Тут поки що немає подій.</p>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- jQuery -->
+    <!-- Tilda has already loaded jQuery, don't add to HTML! -->
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
     <!-- Custom js -->
