@@ -14,11 +14,10 @@
 
 
 <body ng-app="app">
-    <div class="container" ng-controller="EventsController">
+    <div class="container" ng-controller="EventsController" ng-cloak>
         <div class="events-search-options">
-            <select ng-model="selectedCityName" ng-change="filterEvents()" class="form-control" style="width:200px">
-                <option ng-repeat="city in cities" value="{{city.name}}">{{city.localName}}</option>
-            </select>
+            <select ng-options="city as city.localName for city in cities" ng-model="selectedCity" ng-change="filterEvents()"
+                class="form-control" style="width:200px"></select>
 
             <div class="form-check-inline">
                 <input ng-model="showVolunteeringEvents" ng-change="filterEvents()" class="form-check-input" type="checkbox" />
@@ -31,42 +30,45 @@
             </div>
         </div>
 
-        <div ng-repeat="event in filteredEvents">
-            <div class="card event-card">
-                <img class="card-img-top" ng-src="{{event.imageUrl}}" alt="Event card image cap">
-                <div class="card-body">
-                    <p>
-                        <strong>Початок:</strong>
-                        <i>{{event.startsOn | date: dateFormat}}</i>
-                    </p>
-                    <p>
-                        <strong>Закінчення:</strong>
-                        <i>{{event.endsOn | date: dateFormat}}</i>
-                    </p>
-                    <p>
-                        <strong>Де:</strong>
-                        <i>
-                            <a target="_blank" ng-href="{{event.placeHref}}">{{event.placeName}}</a>
-                        </i>
-                    </p>
-                    <p class="card-text">
-                        <strong>Вартість:</strong>
-                        <i>{{event.priceInfo}}</i>
-                    </p>
-                    <h4 class="card-title">{{event.title}}</h4>
-                    <p class="card-text" ng-bind-html="event.description"></p>
-                    <a target="_blank" href="{{event.urlToAttend}}" class="btn btn-primary">Зареєструватися!</a>
+        <div ng-repeat="event in filteredEvents" class="card event-card">
+            <img class="card-img-top" ng-src="{{event.imageUrl}}" alt="Event card image cap">
+            <div class="card-body">
+                <p>
+                    <strong>Початок:</strong>
+                    <i>{{event.startsOn | date: dateFormat}}</i>
+                </p>
+                <p>
+                    <strong>Закінчення:</strong>
+                    <i>{{event.endsOn | date: dateFormat}}</i>
+                </p>
+                <p>
+                    <strong>Де:</strong>
                     <i>
-                        <a target="_blank" href="{{event.urlAbout}}" class="url-about">Подробицi</a>
+                        <a target="_blank" ng-href="{{event.placeHref}}">{{event.placeName}}</a>
                     </i>
-                </div>
+                </p>
+                <p class="card-text">
+                    <strong>Вартість:</strong>
+                    <i>{{event.priceInfo}}</i>
+                </p>
+                <h4 class="card-title">{{event.title}}</h4>
+                <p class="card-text" ng-bind-html="event.description"></p>
+                <a target="_blank" ng-href="{{event.urlToAttend}}" class="btn btn-primary">Зареєструватися!</a>
+                <i>
+                    <a target="_blank" ng-href="{{event.urlAbout}}" class="url-about">Подробицi</a>
+                </i>
             </div>
         </div>
+
+        <div ng-hide="thereAreFilteredEvents()">
+            <p>Тут поки що нема подій, але ти можеш бути першим, хто створить наступну! ;)</p>
+            <a href="/event/add" class="btn btn-primary">Поширити волонтерську можливість</a>
+        </div>  
     </div>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    
+
     <!-- Custom js -->
     <!-- <script src="/script.js" type="module"></script> -->
     <script src="/script.ng.js" type="module"></script>

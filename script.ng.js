@@ -63,21 +63,24 @@ function EventsController($scope) {
     //constants
     $scope.dateFormat = 'dd MMMM, HH:mm';
 
-    //filtering
-    $scope.showVolunteeringEvents = true;
-    $scope.showOrdinaryEvents = true;
-    $scope.selectedCityName;
-
     $scope.cities = [
         new UvsCity(1, UvsCities.ODESSA, 'Одеса'),
         new UvsCity(2, UvsCities.KYIV, 'Київ'),
         new UvsCity(3, UvsCities.LVIV, 'Львів'),
         new UvsCity(4, UvsCities.OTHER, 'Інші міста')
     ];
+
+    //filtering
+    $scope.showVolunteeringEvents = true;
+    $scope.showOrdinaryEvents = true;
+    $scope.selectedCity = $scope.cities[0];
+
     $scope.filteredEvents = [];
+    $scope.thereAreFilteredEvents = () => $scope.filteredEvents.length > 0;
+    
 
     $scope.filterEvents = function () {
-        const cityName = $scope.selectedCityName;
+        const cityName = $scope.selectedCity.name;
         const shouldShowVolunteeringEvents = $scope.showVolunteeringEvents;
         const shouldShowOrdinaryEvents = $scope.showOrdinaryEvents;
 
@@ -100,12 +103,13 @@ function EventsController($scope) {
     getEvents()
         .done(response => {
             const eventDtos = response.map(o => o.fields);
-            console.log('GET events success', eventDtos);
-
             $scope.events = eventDtos
                 .filter(e => e.onSite)
                 .map(e => new UvsEvent(e))
-                .sort((a, b) => a.startsOn.isAfter(b.startsOn));
+                .sort((a, b) => a.startsOn > b.startsOn);
+
+            $scope.filterEvents(); //manual filtering
+            console.log('GET events success', eventDtos, $scope.events);
         })
         .fail(error => {
             console.log('GET events error', error);
