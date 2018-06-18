@@ -84,18 +84,21 @@ function EventsController($scope) {
         const shouldShowVolunteeringEvents = $scope.showVolunteeringEvents;
         const shouldShowOrdinaryEvents = $scope.showOrdinaryEvents;
 
+        let filterFunctions = {
+            byCity: event => event.cityName == cityName,
+            inFuture: event => event.startsOn > now,
+            isNotVolunteering: event => event.eventType !== UvsEventTypes.VOLUNTEERING,
+            isNotOrdinaryEvent: event => event.eventType !== UvsEventTypes.ORDINARY
+        }
+
         //filtering by date, city and checkboxes
         const now = new Date();
         let filteredEvents = $scope.events
-            .filter(e => e.cityName === cityName)
-            .filter(e => e.startsOn > now);
+            .filter(filterFunctions.byCity)
+            .filter(filterFunctions.inFuture);
 
-        if (!shouldShowVolunteeringEvents) {
-            filteredEvents = filteredEvents.filter(e => e.eventType !== UvsEventTypes.VOLUNTEERING);
-        }
-        if (!shouldShowOrdinaryEvents) {
-            filteredEvents = filteredEvents.filter(e => e.eventType !== UvsEventTypes.ORDINARY);
-        }
+        if (!shouldShowVolunteeringEvents) filteredEvents = filteredEvents.filter(filterFunctions.isNotVolunteering); 
+        if (!shouldShowOrdinaryEvents) filteredEvents = filteredEvents.filter(filterFunctions.isNotOrdinaryEvent);
 
         $scope.filteredEvents = filteredEvents;
     }
