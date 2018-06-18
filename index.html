@@ -14,11 +14,12 @@
 
     <!-- Angular.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/i18n/angular-locale_uk-ua.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-sanitize.js"></script>
 </head>
 
 
-<body ng-app="app">
+<body ng-app="app" style="min-width: 350px;">
     <div class="container" ng-controller="EventsController" ng-cloak>
         <div class="row">
             <div class="col-xs-12 col-lg-3">
@@ -37,6 +38,7 @@
                 </div>
             </div>
         </div>
+        <br />
 
         <div class="row">
             <div ng-repeat="event in filteredEvents" class="col-xs-12 col-lg-4">
@@ -47,7 +49,7 @@
                             <strong>Початок:</strong>
                             <i>{{event.startsOn | date: dateFormat}}</i>
                         </p>
-                        <p>
+                        <p ng-show="event.endsOn">
                             <strong>Закінчення:</strong>
                             <i>{{event.endsOn | date: dateFormat}}</i>
                         </p>
@@ -71,11 +73,11 @@
                 </div>
             </div>
         </div>
+        <br />
 
         <div ng-hide="thereAreFilteredEvents()" class="row">
             <div class="col-12">
-                <p>Тут поки що немає подій, але ти можеш бути першим, хто створить наступну! ;)</p>
-                <a href="/event/add" class="btn btn-primary">Поширити волонтерську можливість</a>
+                <p>Тут поки що немає подій.</p>
             </div>
         </div>
     </div>
@@ -84,7 +86,6 @@
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
     <!-- Custom js -->
-    <!-- <script src="/script.js" type="module"></script> -->
     <script src="/script.ng.js" type="module"></script>
 </body>
 

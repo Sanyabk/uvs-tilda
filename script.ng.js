@@ -31,7 +31,7 @@ class UvsEvent {
         this.imageUrl = eventDto.cover[0].url;
 
         this.startsOn = new Date(eventDto.startsOn);
-        this.endsOn = new Date(eventDto.endsOn);
+        this.endsOn = eventDto.endsOn != null ? new Date(eventDto.endsOn) : null;
 
         this.priceInfo = eventDto.priceInfo;
         this.eventType = eventDto.eventType;
@@ -47,10 +47,10 @@ class UvsEvent {
 
 function getEvents() {
     //GET events from Airtable
-    // return $.get('http://p.ptrvch.com/get_uvs_events');
+     return $.get('http://p.ptrvch.com/get_uvs_events');
 
     //IMPORTANT: this line fakes API response!
-    return $.Deferred().resolve(fakeEventsResponse).promise();;
+    //return $.Deferred().resolve(fakeEventsResponse).promise();;
 }
 
 //Angularjs
@@ -77,15 +77,23 @@ function EventsController($scope) {
 
     $scope.filteredEvents = [];
     $scope.thereAreFilteredEvents = () => $scope.filteredEvents.length > 0;
-    
+
 
     $scope.filterEvents = function () {
         const cityName = $scope.selectedCity.name;
         const shouldShowVolunteeringEvents = $scope.showVolunteeringEvents;
         const shouldShowOrdinaryEvents = $scope.showOrdinaryEvents;
 
+        const notOtherCities = $scope.cities
+            .map(c => c.name)
+            .filter(name => name !== UvsCities.OTHER);
+
         let filterFunctions = {
-            byCity: event => event.cityName == cityName,
+            byCity: () => {
+                return (notOtherCities.includes(cityName))
+                    ? event => event.cityName === cityName
+                    : event => !notOtherCities.includes(event.cityName)
+            },
             inFuture: event => event.startsOn > now,
             isNotVolunteering: event => event.eventType !== UvsEventTypes.VOLUNTEERING,
             isNotOrdinaryEvent: event => event.eventType !== UvsEventTypes.ORDINARY
@@ -94,10 +102,10 @@ function EventsController($scope) {
         //filtering by date, city and checkboxes
         const now = new Date();
         let filteredEvents = $scope.events
-            .filter(filterFunctions.byCity)
+            .filter(filterFunctions.byCity()) //should be called manually to return event city filtering function
             .filter(filterFunctions.inFuture);
 
-        if (!shouldShowVolunteeringEvents) filteredEvents = filteredEvents.filter(filterFunctions.isNotVolunteering); 
+        if (!shouldShowVolunteeringEvents) filteredEvents = filteredEvents.filter(filterFunctions.isNotVolunteering);
         if (!shouldShowOrdinaryEvents) filteredEvents = filteredEvents.filter(filterFunctions.isNotOrdinaryEvent);
 
         $scope.filteredEvents = filteredEvents;
