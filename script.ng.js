@@ -47,21 +47,26 @@ function getEvents() {
     return $.Deferred().resolve(fakeEventsResponse).promise();;
 }
 
-function getSelectedCity(cities) {
-    let city = cities[0]; //default
-    
-    const cityName = localStorage.getItem(CITY_NAME_KEY);
-    if (cityName != null) {
-        const lastSelectedCity = cities.find(c => c.name === cityName);
-        if (lastSelectedCity == null) {
-            localStorage.clear(); //default city is 0 element, just clearing localStorage
+const selectedCity = {
+    get: (cities) => {
+        let city = cities[0]; //default
+
+        const cityName = localStorage.getItem(CITY_NAME_KEY);
+        if (cityName != null) {
+            const lastSelectedCity = cities.find(c => c.name === cityName);
+            if (lastSelectedCity == null) {
+                localStorage.clear(); //default city is 0 element, just clearing localStorage
+            }
+            else {
+                city = lastSelectedCity;
+            }
         }
-        else {
-            city = lastSelectedCity;
-        }
+
+        return city;
+    },
+    set: (cityName) => {
+        localStorage.setItem(CITY_NAME_KEY, cityName);
     }
-    
-    return city;
 }
 
 //Angularjs
@@ -81,13 +86,13 @@ function EventsController($scope) {
         new UvsCity(4, UvsCities.OTHER, 'Інші міста')
     ];
 
-    $scope.selectedCity = getSelectedCity($scope.cities);
+    $scope.selectedCity = selectedCity.get($scope.cities);
 
     let events = [];
 
     $scope.filterEvents = function () {
         const cityName = $scope.selectedCity.name;
-        localStorage.setItem(CITY_NAME_KEY, cityName);
+        selectedCity.set(cityName);
 
         const notOtherCities = $scope.cities
             .map(c => c.name)
@@ -119,7 +124,6 @@ function EventsController($scope) {
         ]
     }
 
-    
     getEvents()
         .done(response => {
             const now = new Date();
