@@ -73,12 +73,13 @@ const selectedCity = {
 
 //sanitize is for ng-bind-html directive (unsafe)
 let app = angular.module("app", ['ngSanitize']);
-app.controller("EventsController", EventsController);
+app.controller("EventsController", ['$scope', '$location', EventsController]);
 
-function EventsController($scope) {
+function EventsController($scope, $location) {
     //constants
     $scope.dateFormat = 'dd MMMM, HH:mm';
 
+    //cities
     $scope.cities = [
         new UvsCity(1, UvsCities.ODESSA, 'Одеса'),
         new UvsCity(2, UvsCities.KYIV, 'Київ'),
@@ -86,13 +87,23 @@ function EventsController($scope) {
         new UvsCity(4, UvsCities.OTHER, 'Інші міста')
     ];
 
-    $scope.selectedCity = selectedCity.get($scope.cities);
+    let initializeCity = () => {
+        const urlParams = $location.search();
+        if (urlParams && urlParams.city) {
+            selectedCity.set(urlParams.city);
+        }
 
+        $scope.selectedCity = selectedCity.get($scope.cities);
+    }
+    initializeCity(); //now it's only initializes on page start, not every time URL is changed
+
+    //events
     let events = [];
 
     $scope.filterEvents = function () {
         const cityName = $scope.selectedCity.name;
         selectedCity.set(cityName);
+        $location.search('city', cityName);
 
         const notOtherCities = $scope.cities
             .map(c => c.name)
@@ -106,7 +117,7 @@ function EventsController($scope) {
             }
         }
 
-        //filtering city and checkboxes
+        //make eventSections
         let cityEvents = events.filter(filterFunctions.byCity());
 
         const ordinaryEvents = cityEvents.filter(c => c.eventType === "ORDINARY");
