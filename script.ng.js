@@ -30,7 +30,7 @@ class UvsEvent {
         this.endsOn = eventDto.endsOn != null ? new Date(eventDto.endsOn) : null;
 
         this.priceInfo = eventDto.priceInfo;
-        this.eventType = eventDto.eventType;
+        this.eventType = eventDto.eventType; //TODO: should be deleted
 
         this.cityName = eventDto.cityName;
         this.placeName = eventDto.placeName;
@@ -67,12 +67,10 @@ function EventsController($scope) {
     ];
 
     //filtering
+    let events = [];
+
     $scope.selectedCity = $scope.cities[0];
 
-    $scope.events = [];
-    $scope.filteredEvents = [];
-
-    $scope.thereAreFilteredEvents = () => $scope.filteredEvents.length > 0;
 
     $scope.filterEvents = function () {
         const cityName = $scope.selectedCity.name;
@@ -90,24 +88,35 @@ function EventsController($scope) {
         }
 
         //filtering city and checkboxes
-        let filteredEvents = $scope.events
-            .filter(filterFunctions.byCity()); //should be called manually to return event city filtering function
+        let cityEvents = events.filter(filterFunctions.byCity());
 
-        $scope.filteredEvents = filteredEvents;
+        const ordinaryEvents = cityEvents.filter(c => c.eventType === "ORDINARY");
+        const volunteeringEvents = cityEvents.filter(c => c.eventType === "VOLUNTEERING");
+
+        $scope.eventSections = [
+            {
+                sectionName: 'Можливості',
+                events: volunteeringEvents
+            },
+            {
+                sectionName: 'Події',
+                events: ordinaryEvents
+            }
+        ]
     }
 
     getEvents()
         .done(response => {
             const now = new Date();
             const eventDtos = response.map(o => o.fields);
-            $scope.events = eventDtos
+            events = eventDtos
                 .filter(e => e.onSite)
                 .map(e => new UvsEvent(e))
                 .filter(e => e.startsOn > now)
                 .sort((a, b) => a.startsOn > b.startsOn);
 
             $scope.filterEvents(); //manual filtering
-            console.log('GET events success', eventDtos, $scope.events);
+            console.log('GET events success', eventDtos, events);
         })
         .fail(error => {
             console.log('GET events error', error);

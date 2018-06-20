@@ -19,7 +19,8 @@
 
 <body>
     <div ng-app="app" style="min-width: 350px;">
-        <br /> <!-- To create space between Tilda blocks -->
+        <br />
+        <!-- To create space between Tilda blocks -->
         <div class="container" ng-controller="EventsController" ng-cloak>
             <div class="row">
                 <div class="col-xs-12 col-lg-3">
@@ -29,8 +30,12 @@
             </div>
             <br />
 
-            <div class="row">
-                <div ng-repeat="event in filteredEvents" class="col-xs-12 col-lg-4">
+            <div ng-repeat="eventSection in eventSections" class="row">
+                <div class="col-12">
+                    <h2>{{eventSection.sectionName}}</h2>
+                </div>
+
+                <div ng-repeat="event in eventSection.events" class="col-xs-12 col-lg-4">
                     <div class="card event-card">
                         <img class="card-img-top" ng-src="{{event.imageUrl}}" alt="Event card image cap">
                         <div class="card-body">
@@ -63,14 +68,13 @@
                         </div>
                     </div>
                 </div>
+
+                <div ng-hide="eventSection.events.length > 0" class="col-12">
+                    <p>Наразі тут нічого немає.</p>
+                </div>
             </div>
             <br />
 
-            <div ng-hide="thereAreFilteredEvents()" class="row">
-                <div class="col-12">
-                    <p>Тут поки що немає подій.</p>
-                </div>
-            </div>
         </div>
     </div>
 
