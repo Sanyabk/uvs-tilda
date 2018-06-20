@@ -26,17 +26,6 @@
                     <select ng-options="city as city.localName for city in cities" ng-model="selectedCity" ng-change="filterEvents()" class="form-control">
                     </select>
                 </div>
-                <div ng-show="thereAreEventsInSelectedCity()" class="col-xs-12 col-lg-9">
-                    <div class="form-check-inline">
-                        <input ng-model="showVolunteeringEvents" ng-change="filterEvents()" class="form-check-input" type="checkbox" />
-                        <label class="form-check-label" for="showVolunteeringEvents">Волонтерські акції</label>
-                    </div>
-
-                    <div class="form-check-inline">
-                        <input ng-model="showOrdinaryEvents" ng-change="filterEvents()" class="form-check-input" type="checkbox">
-                        <label class="form-check-label" for="showOrdinaryEvents">Події</label>
-                    </div>
-                </div>
             </div>
             <br />
 
@@ -77,7 +66,7 @@
             </div>
             <br />
 
-            <div ng-hide="thereAreFilteredEvents() || thereAreEventsInSelectedCity()" class="row">
+            <div ng-hide="thereAreFilteredEvents()" class="row">
                 <div class="col-12">
                     <p>Тут поки що немає подій.</p>
                 </div>

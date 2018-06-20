@@ -1,10 +1,6 @@
-//import { fakeEventsResponse } from './fakeApi.js';
+import { fakeEventsResponse } from './fakeApi.js';
 
 //enums
-const UvsEventTypes = {
-    VOLUNTEERING: 'VOLUNTEERING',
-    ORDINARY: 'ORDINARY'
-};
 
 const UvsCities = {
     ODESSA: 'ODESSA',
@@ -47,10 +43,10 @@ class UvsEvent {
 
 function getEvents() {
     //GET events from Airtable
-    return $.get('http://p.ptrvch.com/get_uvs_events');
+    //return $.get('https://uvscrm.herokuapp.com/get_uvs_events');
 
     //IMPORTANT: this line fakes API response!
-    //return $.Deferred().resolve(fakeEventsResponse).promise();;
+    return $.Deferred().resolve(fakeEventsResponse).promise();;
 }
 
 //Angularjs
@@ -71,23 +67,15 @@ function EventsController($scope) {
     ];
 
     //filtering
-    $scope.showVolunteeringEvents = true;
-    $scope.showOrdinaryEvents = true;
     $scope.selectedCity = $scope.cities[0];
 
     $scope.events = [];
     $scope.filteredEvents = [];
 
     $scope.thereAreFilteredEvents = () => $scope.filteredEvents.length > 0;
-    $scope.thereAreEventsInSelectedCity = () => {
-        const selectedCityName = $scope.selectedCity.name;
-        return $scope.events.filter(e => e.cityName === selectedCityName).length > 0;
-    }
 
     $scope.filterEvents = function () {
         const cityName = $scope.selectedCity.name;
-        const shouldShowVolunteeringEvents = $scope.showVolunteeringEvents;
-        const shouldShowOrdinaryEvents = $scope.showOrdinaryEvents;
 
         const notOtherCities = $scope.cities
             .map(c => c.name)
@@ -98,17 +86,12 @@ function EventsController($scope) {
                 return (notOtherCities.includes(cityName))
                     ? event => event.cityName === cityName
                     : event => !notOtherCities.includes(event.cityName)
-            },
-            isNotVolunteering: event => event.eventType !== UvsEventTypes.VOLUNTEERING,
-            isNotOrdinaryEvent: event => event.eventType !== UvsEventTypes.ORDINARY
+            }
         }
 
         //filtering city and checkboxes
         let filteredEvents = $scope.events
             .filter(filterFunctions.byCity()); //should be called manually to return event city filtering function
-
-        if (!shouldShowVolunteeringEvents) filteredEvents = filteredEvents.filter(filterFunctions.isNotVolunteering);
-        if (!shouldShowOrdinaryEvents) filteredEvents = filteredEvents.filter(filterFunctions.isNotOrdinaryEvent);
 
         $scope.filteredEvents = filteredEvents;
     }
