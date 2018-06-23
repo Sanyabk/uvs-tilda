@@ -44,7 +44,7 @@ function getEvents() {
     //return $.get('https://uvscrm.herokuapp.com/get_uvs_events');
 
     //IMPORTANT: this line fakes API response!
-    return $.Deferred().resolve(fakeEventsResponse).promise();;
+    return $.Deferred().resolve(fakeEventsResponse).promise();
 }
 
 const selectedCity = {
@@ -95,6 +95,7 @@ function EventsController($scope, $location) {
     }
 
     //events
+    $scope.eventSections = [];
     let events = [];
 
     let filterEvents = () => {
@@ -131,7 +132,7 @@ function EventsController($scope, $location) {
             }
         ]
     }
-
+    
     let initializeCity = () => {
         const urlParams = $location.search();
         if (urlParams && urlParams.city) {
@@ -154,7 +155,7 @@ function EventsController($scope, $location) {
                 .filter(e => e.startsOn > now)
                 .sort((a, b) => a.startsOn > b.startsOn);
 
-            filterEvents(); //manual filtering
+            $scope.$apply(filterEvents); //manual filtering and apply because of AJAX call delay
             console.log('GET events success', eventDtos, events);
         })
         .fail(error => {
