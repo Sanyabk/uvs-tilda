@@ -87,6 +87,13 @@ function EventsController($scope, $location) {
         new UvsCity(4, UvsCities.OTHER, 'Інші міста')
     ];
 
+    $scope.getCityLinkClass = function (city) { return $scope.selectedCity.name == city.name ? 'active' : ''; }
+    $scope.selectCity = function (city) {
+        $scope.selectedCity = city;
+        selectedCity.set(city.name);
+        filterEvents();
+    }
+
     let initializeCity = () => {
         const urlParams = $location.search();
         if (urlParams && urlParams.city) {
@@ -100,7 +107,7 @@ function EventsController($scope, $location) {
     //events
     let events = [];
 
-    $scope.filterEvents = function () {
+    let filterEvents = () => {
         const cityName = $scope.selectedCity.name;
         selectedCity.set(cityName);
         $location.search('city', cityName);
@@ -145,7 +152,7 @@ function EventsController($scope, $location) {
                 .filter(e => e.startsOn > now)
                 .sort((a, b) => a.startsOn > b.startsOn);
 
-            $scope.filterEvents(); //manual filtering
+            filterEvents(); //manual filtering
             console.log('GET events success', eventDtos, events);
         })
         .fail(error => {
