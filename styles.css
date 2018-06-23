@@ -2,6 +2,10 @@
     color: #007bff !important; /* Tilda has orange links */
 }
 
+.nav-tabs .nav-link.active {
+    color: #495057 !important; /* Tilda has orange links */
+}
+
 .url-about {
     vertical-align: middle;
 }

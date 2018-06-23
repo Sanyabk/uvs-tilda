@@ -87,22 +87,12 @@ function EventsController($scope, $location) {
         new UvsCity(4, UvsCities.OTHER, 'Інші міста')
     ];
 
-    $scope.getCityLinkClass = function (city) { return $scope.selectedCity.name == city.name ? 'active' : ''; }
+    $scope.getCityLinkClass = function (city) { return $scope.selectedCity.name == city.name ? 'active' : 'uvs-link'; }
     $scope.selectCity = function (city) {
         $scope.selectedCity = city;
         selectedCity.set(city.name);
         filterEvents();
     }
-
-    let initializeCity = () => {
-        const urlParams = $location.search();
-        if (urlParams && urlParams.city) {
-            selectedCity.set(urlParams.city);
-        }
-
-        $scope.selectedCity = selectedCity.get($scope.cities);
-    }
-    initializeCity(); //now it's only initializes on page start, not every time URL is changed
 
     //events
     let events = [];
@@ -141,6 +131,18 @@ function EventsController($scope, $location) {
             }
         ]
     }
+
+    let initializeCity = () => {
+        const urlParams = $location.search();
+        if (urlParams && urlParams.city) {
+            selectedCity.set(urlParams.city);
+        }
+
+        $scope.selectedCity = selectedCity.get($scope.cities);
+        filterEvents();
+    }
+
+    initializeCity(); //now it's only initializes on page start, not every time URL is changed
 
     getEvents()
         .done(response => {
