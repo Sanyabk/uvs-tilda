@@ -41,10 +41,10 @@ class UvsEvent {
 
 function getEvents() {
     //GET events from Airtable
-    //return $.get('https://uvscrm.herokuapp.com/get_uvs_events');
+    return $.get('https://uvscrm.herokuapp.com/get_uvs_events');
 
     //IMPORTANT: this line fakes API response!
-    return $.Deferred().resolve(fakeEventsResponse).promise();
+    //return $.Deferred().resolve(fakeEventsResponse).promise();
 }
 
 const selectedCity = {
@@ -95,6 +95,7 @@ function EventsController($scope, $location) {
     }
 
     //events
+    $scope.eventsAreLoaded = false;
     $scope.eventSections = [];
     let events = [];
 
@@ -132,7 +133,7 @@ function EventsController($scope, $location) {
             }
         ]
     }
-    
+
     let initializeCity = () => {
         const urlParams = $location.search();
         if (urlParams && urlParams.city) {
@@ -155,7 +156,12 @@ function EventsController($scope, $location) {
                 .filter(e => e.startsOn > now)
                 .sort((a, b) => a.startsOn > b.startsOn);
 
-            $scope.$apply(filterEvents); //manual filtering and apply because of AJAX call delay
+            //manual filtering and apply because of AJAX call delay
+            $scope.$evalAsync(() => {
+                filterEvents();
+                $scope.eventsAreLoaded = true;
+            });
+
             console.log('GET events success', eventDtos, events);
         })
         .fail(error => {
