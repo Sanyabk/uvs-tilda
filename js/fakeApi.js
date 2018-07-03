@@ -113,4 +113,43 @@ export const fakeEventsResponse = [
             urlToAttend: "http://volunteer.country/dobriygist"
         }
     }
+];
+
+/* UVS Friends */
+
+export const fakeUvsFriendsResponse = [
+    {
+        id: 1,
+        name: "John Doe",
+        cover: [
+            {
+                url: "https://dl.airtable.com/wpF5oUaZR0uoqBlKsDzL_bsDbgnerQlGO4ckT4ioe_full_tkavlbk.jpg"
+            }
+        ],
+        donationLevel: "JUNIOR",
+        donationAmount: 25
+    },
+    {
+        id: 2,
+        name: "Mary Ann",
+        cover: [
+            {
+                url: "https://dl.airtable.com/wpF5oUaZR0uoqBlKsDzL_bsDbgnerQlGO4ckT4ioe_full_tkavlbk.jpg"
+            }
+        ],
+        donationLevel: "JUNIOR",
+        donationAmount: 125
+    },
+    {
+        id: 3,
+        name: "Pablo Escobar",
+        cover: [
+            {
+                url: "https://dl.airtable.com/wpF5oUaZR0uoqBlKsDzL_bsDbgnerQlGO4ckT4ioe_full_tkavlbk.jpg"
+            }
+        ],
+        donationLevel: "JUNIOR",
+        donationAmount: 250
+    },
 ]
+
