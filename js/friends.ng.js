@@ -15,11 +15,11 @@ class UvsFriend {
         this.donationLevel = this.getUvsDonationLevel(dto.donationLevel);
         this.donationAmount = dto.donationAmount;
     }
-    
+
     getUvsDonationLevel(levelName) {
         return [
-            UvsDonationLevel.JUNIOR, 
-            UvsDonationLevel.MIDDLE, 
+            UvsDonationLevel.JUNIOR,
+            UvsDonationLevel.MIDDLE,
             UvsDonationLevel.SENIOR
         ].find(dl => dl === levelName);
     }
@@ -43,9 +43,26 @@ app.controller("FriendsController", ['$scope', FriendsController]);
 function FriendsController($scope) {
     $scope.message = 'Hello, UVS friend!';
 
+    $scope.getFriendImgClass = function (friend) {
+        let cssClass = "friend-rounded "; //default class
+        switch (friend.donationLevel) {
+            case UvsDonationLevel.JUNIOR:
+                cssClass += "friend-0";
+                break;
+            case UvsDonationLevel.MIDDLE:
+                cssClass += "friend-1";
+                break;
+            case UvsDonationLevel.SENIOR:
+                cssClass += "friend-2";
+                break;
+        }
+        return cssClass;
+    }
     getFriends()
         .done(response => {
             const friends = response.map(dto => new UvsFriend(dto));
+            $scope.friends = friends;
+
             console.log('GET friends success', response, friends);
         })
         .fail(error => {

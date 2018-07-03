@@ -18,11 +18,37 @@
 </head>
 
 <body>
+    <style>
+        .friend-rounded {
+            border-radius: 50%;
+            border: 2px solid black;
+        }
+
+        .friend-0 {
+            width: 100px;
+            height: 100px;
+        }
+
+        .friend-1 {
+            width: 200px;
+            height: 200px;
+        }
+
+        .friend-2 {
+            width: 300px;
+            height: 300px;
+        }
+    </style>
     <div ng-app="app" style="min-width: 350px;">
         <br />
         <!-- To create space between Tilda blocks -->
 
         <div class="container" ng-controller="FriendsController" ng-cloak>
+            <div ng-repeat="friend in friends">
+                <div class="text-center">
+                    <img ng-src="{{friend.imageUrl}}" ng-class="getFriendImgClass(friend)">
+                </div>
+            </div>
             {{message}}
         </div>
     </div>

@@ -123,7 +123,7 @@ export const fakeUvsFriendsResponse = [
         name: "John Doe",
         cover: [
             {
-                url: "https://dl.airtable.com/wpF5oUaZR0uoqBlKsDzL_bsDbgnerQlGO4ckT4ioe_full_tkavlbk.jpg"
+                url: "https://sprogsyd.dk/wp-content/uploads/2017/07/476085198-1.jpg"
             }
         ],
         donationLevel: "JUNIOR",
@@ -134,10 +134,10 @@ export const fakeUvsFriendsResponse = [
         name: "Mary Ann",
         cover: [
             {
-                url: "https://dl.airtable.com/wpF5oUaZR0uoqBlKsDzL_bsDbgnerQlGO4ckT4ioe_full_tkavlbk.jpg"
+                url: "https://sprogsyd.dk/wp-content/uploads/2017/07/476085198-1.jpg"
             }
         ],
-        donationLevel: "JUNIOR",
+        donationLevel: "MIDDLE",
         donationAmount: 125
     },
     {
@@ -145,10 +145,10 @@ export const fakeUvsFriendsResponse = [
         name: "Pablo Escobar",
         cover: [
             {
-                url: "https://dl.airtable.com/wpF5oUaZR0uoqBlKsDzL_bsDbgnerQlGO4ckT4ioe_full_tkavlbk.jpg"
+                url: "https://sprogsyd.dk/wp-content/uploads/2017/07/476085198-1.jpg"
             }
         ],
-        donationLevel: "JUNIOR",
+        donationLevel: "SENIOR",
         donationAmount: 250
     },
 ]
