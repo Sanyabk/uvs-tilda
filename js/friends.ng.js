@@ -1,6 +1,6 @@
 import { fakeUvsFriendsResponse } from './fakeApi.js';
 
-const UvsDonationLevel = {
+const UVS_DONATION_LEVEL = {
     JUNIOR: 'JUNIOR',
     MIDDLE: 'MIDDLE',
     SENIOR: 'SENIOR'
@@ -18,13 +18,28 @@ class UvsFriend {
 
     getUvsDonationLevel(levelName) {
         return [
-            UvsDonationLevel.JUNIOR,
-            UvsDonationLevel.MIDDLE,
-            UvsDonationLevel.SENIOR
+            UVS_DONATION_LEVEL.JUNIOR,
+            UVS_DONATION_LEVEL.MIDDLE,
+            UVS_DONATION_LEVEL.SENIOR
         ].find(dl => dl === levelName);
     }
-}
 
+    getPreviewClass() {
+        switch (this.donationLevel) {
+            case UVS_DONATION_LEVEL.JUNIOR: return 'friend-0-preview';
+            case UVS_DONATION_LEVEL.MIDDLE: return 'friend-1-preview';
+            case UVS_DONATION_LEVEL.SENIOR: return 'friend-2-preview';
+        }
+    }
+
+    getHoveredClass() {
+        switch (this.donationLevel) {
+            case UVS_DONATION_LEVEL.JUNIOR: return 'friend-0-hovered';
+            case UVS_DONATION_LEVEL.MIDDLE: return 'friend-1-hovered';
+            case UVS_DONATION_LEVEL.SENIOR: return 'friend-2-hovered';
+        }
+    }
+}
 
 function getFriends() {
     //GET friends from Airtable
@@ -46,13 +61,13 @@ function FriendsController($scope) {
     $scope.getFriendImgClass = function (friend) {
         let cssClass = "friend-rounded "; //default class
         switch (friend.donationLevel) {
-            case UvsDonationLevel.JUNIOR:
+            case UVS_DONATION_LEVEL.JUNIOR:
                 cssClass += "friend-0";
                 break;
-            case UvsDonationLevel.MIDDLE:
+            case UVS_DONATION_LEVEL.MIDDLE:
                 cssClass += "friend-1";
                 break;
-            case UvsDonationLevel.SENIOR:
+            case UVS_DONATION_LEVEL.SENIOR:
                 cssClass += "friend-2";
                 break;
         }

@@ -134,7 +134,7 @@ export const fakeUvsFriendsResponse = [
         name: "Mary Ann",
         cover: [
             {
-                url: "https://sprogsyd.dk/wp-content/uploads/2017/07/476085198-1.jpg"
+                url: "https://freeiconshop.com/wp-content/uploads/edd/person-flat.png"
             }
         ],
         donationLevel: "MIDDLE",
@@ -145,7 +145,7 @@ export const fakeUvsFriendsResponse = [
         name: "Pablo Escobar",
         cover: [
             {
-                url: "https://sprogsyd.dk/wp-content/uploads/2017/07/476085198-1.jpg"
+                url: "https://freeiconshop.com/wp-content/uploads/edd/person-flat.png"
             }
         ],
         donationLevel: "SENIOR",
