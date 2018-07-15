@@ -115,41 +115,53 @@ export const fakeEventsResponse = [
     }
 ];
 
+const friend1 = {
+    id: 1,
+    name: "John Doe",
+    cover: [
+        {
+            url: "https://sprogsyd.dk/wp-content/uploads/2017/07/476085198-1.jpg"
+        }
+    ],
+    donationLevel: "JUNIOR",
+    donationAmount: 25
+};
+const friend2 = {
+    id: 2,
+    name: "Mary Ann",
+    cover: [
+        {
+            url: "https://freeiconshop.com/wp-content/uploads/edd/person-flat.png"
+        }
+    ],
+    donationLevel: "MIDDLE",
+    donationAmount: 125
+};
+const friend3 = {
+    id: 3,
+    name: "Pablo Escobar",
+    cover: [
+        {
+            url: "https://freeiconshop.com/wp-content/uploads/edd/person-flat.png"
+        }
+    ],
+    donationLevel: "SENIOR",
+    donationAmount: 250
+};
 /* UVS Friends */
+const multiplyObject = (obj, times) => {
+    let objs = [];
+
+    for (let i = 0; i < times; i++) {
+        objs.push(obj);
+    }
+
+    return objs;
+}
 
 export const fakeUvsFriendsResponse = [
-    {
-        id: 1,
-        name: "John Doe",
-        cover: [
-            {
-                url: "https://sprogsyd.dk/wp-content/uploads/2017/07/476085198-1.jpg"
-            }
-        ],
-        donationLevel: "JUNIOR",
-        donationAmount: 25
-    },
-    {
-        id: 2,
-        name: "Mary Ann",
-        cover: [
-            {
-                url: "https://freeiconshop.com/wp-content/uploads/edd/person-flat.png"
-            }
-        ],
-        donationLevel: "MIDDLE",
-        donationAmount: 125
-    },
-    {
-        id: 3,
-        name: "Pablo Escobar",
-        cover: [
-            {
-                url: "https://freeiconshop.com/wp-content/uploads/edd/person-flat.png"
-            }
-        ],
-        donationLevel: "SENIOR",
-        donationAmount: 250
-    },
+    ...multiplyObject(friend1, 55),
+    ...multiplyObject(friend2, 25),
+    ...multiplyObject(friend3, 15),
 ]
 

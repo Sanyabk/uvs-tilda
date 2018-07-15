@@ -51,28 +51,38 @@ function getFriends() {
 
 //Angularjs
 
+//https://github.com/nglar/ngTouchend
+angular.module("ngTouchend", []).directive("ngTouchend", function () {
+    return {
+        controller: function ($scope, $element, $attrs) {
+            $element.bind('touchend', onTouchEnd);
+
+            function onTouchEnd(event) {
+                var method = $element.attr('ng-touchend');
+                $scope.$event = event;
+                $scope.$apply(method);
+            };
+        }
+    };
+});
+
 //sanitize is for ng-bind-html directive (unsafe) ['ngSanitize']
-let app = angular.module("app", []);
+let app = angular.module("app", ["ngTouchend"]);
 app.controller("FriendsController", ['$scope', FriendsController]);
 
 function FriendsController($scope) {
-    $scope.message = 'Hello, UVS friend!';
+    $scope.donationLevels = [
+        UVS_DONATION_LEVEL.SENIOR,
+        UVS_DONATION_LEVEL.MIDDLE,
+        UVS_DONATION_LEVEL.JUNIOR,
+    ];
 
-    $scope.getFriendImgClass = function (friend) {
-        let cssClass = "friend-rounded "; //default class
-        switch (friend.donationLevel) {
-            case UVS_DONATION_LEVEL.JUNIOR:
-                cssClass += "friend-0";
-                break;
-            case UVS_DONATION_LEVEL.MIDDLE:
-                cssClass += "friend-1";
-                break;
-            case UVS_DONATION_LEVEL.SENIOR:
-                cssClass += "friend-2";
-                break;
-        }
-        return cssClass;
-    }
+    $scope.getFriendsForDonationLevel = function (donationLevel) {
+        return $scope.friends
+            ? $scope.friends.filter(f => f.donationLevel === donationLevel)
+            : [];
+    };
+
     getFriends()
         .done(response => {
             const friends = response.map(dto => new UvsFriend(dto));

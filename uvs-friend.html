@@ -47,9 +47,11 @@
         .friend-2-hovered {
             width: 150px;
             height: 150px;
+            border: 1px solid royalblue;
         }
 
         /* for absolute tile to start right from the top left of preview */
+
         .card-body {
             padding: 0;
         }
@@ -71,18 +73,25 @@
         <!-- To create space between Tilda blocks -->
 
         <div class="container" ng-controller="FriendsController" ng-cloak>
-            <div class="row">
-                <div ng-repeat="friend in friends">
-                    <div class="card friend-card" ng-init="infoIsVisible=false" ng-mouseenter="infoIsVisible=true" ng-mouseleave="infoIsVisible=false">
-                        <div>
-                            <img class="card-img-top" ng-class="friend.getPreviewClass()" ng-src="{{friend.imageUrl}}" />
-                        </div>
-                        <div class="card-body friend-card-body" ng-show="infoIsVisible">
-                            <img class="card-img-top" ng-class="friend.getHoveredClass()" ng-src="{{friend.imageUrl}}" />
-                            <h5 class="card-title">{{friend.name}}</h5>
-                            <p class="card-text">{{friend.donationLevel}}</p>
+
+            <div ng-repeat="donationLevel in donationLevels" class="row">                
+                <div class="col-12">
+                    <div ng-repeat="friend in getFriendsForDonationLevel(donationLevel)" style="display: inline-block">
+                        <div class="card friend-card" 
+                            ng-init="infoIsVisible=false" ng-mouseenter="infoIsVisible=true" ng-mouseleave="infoIsVisible=false" ng-touchend="infoIsVisible=!infoIsVisible">
+                            <div>
+                                <img class="card-img-top" ng-class="friend.getPreviewClass()" ng-src="{{friend.imageUrl}}" />
+                            </div>
+                            <div class="card-body friend-card-body" ng-show="infoIsVisible">
+                                <img class="card-img-top" ng-class="friend.getHoveredClass()" ng-src="{{friend.imageUrl}}" />
+                                <h5 class="card-title">{{friend.name}}</h5>
+                                <p class="card-text">{{friend.donationLevel}}</p>
+                            </div>
                         </div>
                     </div>
+                </div>
+                <div class="col-12">
+                    <br />
                 </div>
             </div>
         </div>
