@@ -133,7 +133,7 @@ const friend2 = {
     description: "Business Analyst",
     cover: [
         {
-            url: "https://freeiconshop.com/wp-content/uploads/edd/person-flat.png"
+            url: "https://www.w3schools.com/howto/img_avatar2.png"
         }
     ],
     donationLevel: "MIDDLE",
