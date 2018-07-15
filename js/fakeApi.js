@@ -118,6 +118,7 @@ export const fakeEventsResponse = [
 const friend1 = {
     id: 1,
     name: "John Doe",
+    description: "Social Fighter",
     cover: [
         {
             url: "https://sprogsyd.dk/wp-content/uploads/2017/07/476085198-1.jpg"
@@ -129,6 +130,7 @@ const friend1 = {
 const friend2 = {
     id: 2,
     name: "Mary Ann",
+    description: "Business Analyst",
     cover: [
         {
             url: "https://freeiconshop.com/wp-content/uploads/edd/person-flat.png"
@@ -140,6 +142,7 @@ const friend2 = {
 const friend3 = {
     id: 3,
     name: "Pablo Escobar",
+    description: "Cartel Leader",
     cover: [
         {
             url: "https://freeiconshop.com/wp-content/uploads/edd/person-flat.png"

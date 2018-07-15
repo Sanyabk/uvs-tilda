@@ -47,7 +47,6 @@
         .friend-2-hovered {
             width: 150px;
             height: 150px;
-            border: 1px solid royalblue;
         }
 
         /* for absolute tile to start right from the top left of preview */
@@ -65,6 +64,9 @@
         .friend-card-body {
             position: absolute;
             background-color: #ddd;
+            border: 1px solid rgba(0,0,0,.125);
+            border-radius: .25rem;
+            height: auto;
             z-index: 100;
         }
     </style>
@@ -82,10 +84,10 @@
                             <div>
                                 <img class="card-img-top" ng-class="friend.getPreviewClass()" ng-src="{{friend.imageUrl}}" />
                             </div>
-                            <div class="card-body friend-card-body" ng-show="infoIsVisible">
-                                <img class="card-img-top" ng-class="friend.getHoveredClass()" ng-src="{{friend.imageUrl}}" />
+                            <div class="card-body friend-card-body" ng-show="infoIsVisible" ng-class="friend.getHoveredClass()">
+                                <img class="card-img-top" ng-src="{{friend.imageUrl}}" />
                                 <h5 class="card-title">{{friend.name}}</h5>
-                                <p class="card-text">{{friend.donationLevel}}</p>
+                                <p class="card-text">{{friend.description}}</p>
                             </div>
                         </div>
                     </div>

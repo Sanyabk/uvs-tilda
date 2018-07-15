@@ -11,6 +11,7 @@ class UvsFriend {
     constructor(dto) {
         this.id = dto.id;
         this.name = dto.name;
+        this.description= dto.description;
         this.imageUrl = dto.cover[0].url;
         this.donationLevel = this.getUvsDonationLevel(dto.donationLevel);
         this.donationAmount = dto.donationAmount;
