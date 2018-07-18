@@ -62,10 +62,18 @@
         .friend-card-body {
             position: absolute;
             background-color: #ddd;
-            border: 1px solid rgba(0,0,0,.125);
+            border: 1px solid rgba(0, 0, 0, .125);
             border-radius: .25rem;
             height: auto;
             z-index: 100;
+        }
+
+        .donation-container {
+            border: 1px solid black;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            justify-content: center;
         }
     </style>
     <div ng-app="app" style="min-width: 350px;">
@@ -74,35 +82,31 @@
 
         <div class="container" ng-controller="FriendsController" ng-cloak>
 
-            <div ng-repeat="donationLevel in donationLevels" class="row">                
-                <div class="col-12">
-                    <div ng-repeat="friend in getFriendsForDonationLevel(donationLevel)" style="display: inline-block">
-                        <div class="card friend-card" 
-                            ng-init="infoIsVisible=false" ng-mouseenter="infoIsVisible=true" ng-mouseleave="infoIsVisible=false" ng-touchend="infoIsVisible=!infoIsVisible">
-                            <div>
-                                <img class="card-img-top" ng-class="friend.getPreviewClass()" ng-src="{{friend.imageUrl}}" />
-                            </div>
-                            <div class="card-body friend-card-body" ng-show="infoIsVisible" ng-class="friend.getHoveredClass()">
-                                <img class="card-img-top" ng-src="{{friend.imageUrl}}" />
-                                <h5 class="card-title">{{friend.name}}</h5>
-                                <p class="card-text">{{friend.description}}</p>
-                            </div>
+            <div ng-repeat="donationLevel in donationLevels" class="row donation-container">
+                    <div ng-repeat="friend in getFriendsForDonationLevel(donationLevel)" ng-init="infoIsVisible=false" ng-mouseenter="infoIsVisible=true"
+                        ng-mouseleave="infoIsVisible=false" ng-touchend="infoIsVisible=!infoIsVisible" ng-class="friend.getPreviewClass()"
+                        class="card friend-card">
+                        <div>
+                            <img class="card-img-top" ng-src="{{friend.imageUrl}}" />
+                        </div>
+                        <div class="card-body friend-card-body" ng-show="infoIsVisible" ng-class="friend.getHoveredClass()">
+                            <img class="card-img-top" ng-src="{{friend.imageUrl}}" />
+                            <h5 class="card-title">{{friend.name}}</h5>
+                            <p class="card-text">{{friend.description}}</p>
                         </div>
                     </div>
-                </div>
-                <div class="col-12">
-                    <br />
-                </div>
+                    <div class="col-12">
+                        <br />
+                    </div>
             </div>
         </div>
-    </div>
 
-    <!-- jQuery -->
-    <!-- Tilda has already loaded jQuery, don't add to HTML! -->
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+        <!-- jQuery -->
+        <!-- Tilda has already loaded jQuery, don't add to HTML! -->
+        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
-    <!-- Custom js -->
-    <script src="/js/friends.ng.js" type="module"></script>
+        <!-- Custom js -->
+        <script src="/js/friends.ng.js" type="module"></script>
 </body>
 
 </html>
