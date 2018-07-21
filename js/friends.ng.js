@@ -59,7 +59,9 @@ angular.module("ngTouchend", []).directive("ngTouchend", function () {
             $element.bind('touchend', onTouchEnd);
 
             function onTouchEnd(event) {
-                const isLinkClicked = event.path.some(e => e.href);
+                //for some reason Tilda passes TouchEvent in event.originalEvent property
+                const originalEvent = event.originalEvent ? event.originalEvent : event;
+                const isLinkClicked = originalEvent.path.some(e => e.href);
                 if (isLinkClicked) return; //to prevent touchend statement execution
 
                 var method = $element.attr('ng-touchend');
