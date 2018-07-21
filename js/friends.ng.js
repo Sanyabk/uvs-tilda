@@ -2,7 +2,7 @@ import { fakeUvsFriendsResponse } from './fakeApi.js';
 
 const UVS_DONATION_LEVEL = {
     M: 'M',
-    X: 'X',
+    L: 'L',
     XL: 'XL'
 };
 
@@ -11,7 +11,7 @@ class UvsFriend {
     constructor(dto) {
         this.id = dto.id;
         this.name = dto.name;
-        this.description= dto.description;
+        this.description = dto.description;
         this.imageUrl = dto.cover[0].url;
         this.donationLevel = this.getUvsDonationLevel(dto.donationLevel);
         this.facebook = dto.facebook;
@@ -20,7 +20,7 @@ class UvsFriend {
     getUvsDonationLevel(levelName) {
         return [
             UVS_DONATION_LEVEL.M,
-            UVS_DONATION_LEVEL.X,
+            UVS_DONATION_LEVEL.L,
             UVS_DONATION_LEVEL.XL
         ].find(dl => dl === levelName);
     }
@@ -28,7 +28,7 @@ class UvsFriend {
     getPreviewClass() {
         switch (this.donationLevel) {
             case UVS_DONATION_LEVEL.M: return 'friend-0-preview';
-            case UVS_DONATION_LEVEL.X: return 'friend-1-preview';
+            case UVS_DONATION_LEVEL.L: return 'friend-1-preview';
             case UVS_DONATION_LEVEL.XL: return 'friend-2-preview';
         }
     }
@@ -36,7 +36,7 @@ class UvsFriend {
     getHoveredClass() {
         switch (this.donationLevel) {
             case UVS_DONATION_LEVEL.M: return 'friend-0-hovered';
-            case UVS_DONATION_LEVEL.X: return 'friend-1-hovered';
+            case UVS_DONATION_LEVEL.L: return 'friend-1-hovered';
             case UVS_DONATION_LEVEL.XL: return 'friend-2-hovered';
         }
     }
@@ -74,7 +74,7 @@ app.controller("FriendsController", ['$scope', FriendsController]);
 function FriendsController($scope) {
     $scope.donationLevels = [
         UVS_DONATION_LEVEL.M,
-        UVS_DONATION_LEVEL.X,
+        UVS_DONATION_LEVEL.L,
         UVS_DONATION_LEVEL.XL,
     ];
 
@@ -84,9 +84,16 @@ function FriendsController($scope) {
             : [];
     };
 
+    $scope.onFriendTouchend = function (friend) {
+        const selectedFriend = $scope.friends.find(f => f.infoIsVisible === true);
+        $scope.friends.forEach(f => f.infoIsVisible = false);
+        if (selectedFriend !== friend) friend.infoIsVisible = true; //if was touch on selected friend - not select again
+    }
+
     getFriends()
         .done(response => {
             const friends = response.map(dto => new UvsFriend(dto));
+            friends.forEach(f => f.infoIsVisible = false); //set infoIsVisible for all elements
             $scope.friends = friends;
 
             console.log('GET friends success', response, friends);
