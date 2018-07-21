@@ -1,9 +1,9 @@
 import { fakeUvsFriendsResponse } from './fakeApi.js';
 
 const UVS_DONATION_LEVEL = {
-    JUNIOR: 'JUNIOR',
-    MIDDLE: 'MIDDLE',
-    SENIOR: 'SENIOR'
+    M: 'M',
+    X: 'X',
+    XL: 'XL'
 };
 
 class UvsFriend {
@@ -14,30 +14,30 @@ class UvsFriend {
         this.description= dto.description;
         this.imageUrl = dto.cover[0].url;
         this.donationLevel = this.getUvsDonationLevel(dto.donationLevel);
-        this.donationAmount = dto.donationAmount;
+        this.facebook = dto.facebook;
     }
 
     getUvsDonationLevel(levelName) {
         return [
-            UVS_DONATION_LEVEL.JUNIOR,
-            UVS_DONATION_LEVEL.MIDDLE,
-            UVS_DONATION_LEVEL.SENIOR
+            UVS_DONATION_LEVEL.M,
+            UVS_DONATION_LEVEL.X,
+            UVS_DONATION_LEVEL.XL
         ].find(dl => dl === levelName);
     }
 
     getPreviewClass() {
         switch (this.donationLevel) {
-            case UVS_DONATION_LEVEL.JUNIOR: return 'friend-0-preview';
-            case UVS_DONATION_LEVEL.MIDDLE: return 'friend-1-preview';
-            case UVS_DONATION_LEVEL.SENIOR: return 'friend-2-preview';
+            case UVS_DONATION_LEVEL.M: return 'friend-0-preview';
+            case UVS_DONATION_LEVEL.X: return 'friend-1-preview';
+            case UVS_DONATION_LEVEL.XL: return 'friend-2-preview';
         }
     }
 
     getHoveredClass() {
         switch (this.donationLevel) {
-            case UVS_DONATION_LEVEL.JUNIOR: return 'friend-0-hovered';
-            case UVS_DONATION_LEVEL.MIDDLE: return 'friend-1-hovered';
-            case UVS_DONATION_LEVEL.SENIOR: return 'friend-2-hovered';
+            case UVS_DONATION_LEVEL.M: return 'friend-0-hovered';
+            case UVS_DONATION_LEVEL.X: return 'friend-1-hovered';
+            case UVS_DONATION_LEVEL.XL: return 'friend-2-hovered';
         }
     }
 }
@@ -73,9 +73,9 @@ app.controller("FriendsController", ['$scope', FriendsController]);
 
 function FriendsController($scope) {
     $scope.donationLevels = [
-        UVS_DONATION_LEVEL.SENIOR,
-        UVS_DONATION_LEVEL.MIDDLE,
-        UVS_DONATION_LEVEL.JUNIOR,
+        UVS_DONATION_LEVEL.M,
+        UVS_DONATION_LEVEL.X,
+        UVS_DONATION_LEVEL.XL,
     ];
 
     $scope.getFriendsForDonationLevel = function (donationLevel) {

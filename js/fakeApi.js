@@ -124,8 +124,8 @@ const friend1 = {
             url: "https://sprogsyd.dk/wp-content/uploads/2017/07/476085198-1.jpg"
         }
     ],
-    donationLevel: "JUNIOR",
-    donationAmount: 25
+    donationLevel: "M",
+    facebook: "https://www.facebook.com/illia.poltavets",
 };
 const friend2 = {
     id: 2,
@@ -136,8 +136,8 @@ const friend2 = {
             url: "https://www.w3schools.com/howto/img_avatar2.png"
         }
     ],
-    donationLevel: "MIDDLE",
-    donationAmount: 125
+    donationLevel: "L",
+    facebook: "https://www.facebook.com/olia.did",
 };
 const friend3 = {
     id: 3,
@@ -148,8 +148,8 @@ const friend3 = {
             url: "https://freeiconshop.com/wp-content/uploads/edd/person-flat.png"
         }
     ],
-    donationLevel: "SENIOR",
-    donationAmount: 250
+    donationLevel: "XL",
+    facebook: "https://www.facebook.com/akhiora",
 };
 /* UVS Friends */
 const multiplyObject = (obj, times) => {
