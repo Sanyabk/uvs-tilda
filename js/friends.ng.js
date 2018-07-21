@@ -59,6 +59,9 @@ angular.module("ngTouchend", []).directive("ngTouchend", function () {
             $element.bind('touchend', onTouchEnd);
 
             function onTouchEnd(event) {
+                const isLinkClicked = event.path.some(e => e.href);
+                if (isLinkClicked) return; //to prevent touchend statement execution
+
                 var method = $element.attr('ng-touchend');
                 $scope.$event = event;
                 $scope.$apply(method);
@@ -72,10 +75,11 @@ let app = angular.module("app", ["ngTouchend"]);
 app.controller("FriendsController", ['$scope', FriendsController]);
 
 function FriendsController($scope) {
+    //order is important, XL should be first
     $scope.donationLevels = [
-        UVS_DONATION_LEVEL.M,
-        UVS_DONATION_LEVEL.L,
         UVS_DONATION_LEVEL.XL,
+        UVS_DONATION_LEVEL.L,
+        UVS_DONATION_LEVEL.M,
     ];
 
     $scope.getFriendsForDonationLevel = function (donationLevel) {

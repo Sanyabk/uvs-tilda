@@ -79,7 +79,9 @@
             flex-wrap: wrap;
             flex-direction: row;
             justify-content: center;
-            padding: 0 30px; /* because diff between preview and hover less or equal 30px, for right cards not to be over screen */
+            
+            /* because diff between preview and hover less or equal 30px, for right cards not to be over screen */
+            padding: 0 30px;
         }
     </style>
     <div ng-app="app" style="min-width: 350px;">
@@ -88,8 +90,7 @@
 
         <div class="container" ng-controller="FriendsController" ng-cloak>
             <div ng-repeat="donationLevel in donationLevels" class="row donation-container">
-                <div ng-repeat="friend in getFriendsForDonationLevel(donationLevel)" 
-                    ng-mouseenter="friend.infoIsVisible=true" ng-mouseleave="friend.infoIsVisible=false"
+                <div ng-repeat="friend in getFriendsForDonationLevel(donationLevel)" ng-mouseenter="friend.infoIsVisible=true" ng-mouseleave="friend.infoIsVisible=false"
                     ng-touchend="onFriendTouchend(friend)" ng-class="friend.getPreviewClass()" class="card friend-card">
                     <div>
                         <img class="card-img-top" ng-src="{{friend.imageUrl}}" />
@@ -113,13 +114,14 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- jQuery -->
-        <!-- Tilda has already loaded jQuery, don't add to HTML! -->
-        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <!-- jQuery -->
+    <!-- Tilda has already loaded jQuery, don't add to HTML! -->
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
-        <!-- Custom js -->
-        <script src="/js/friends.ng.js" type="module"></script>
+    <!-- Custom js -->
+    <script src="/js/friends.ng.js" type="module"></script>
 </body>
 
 </html>
