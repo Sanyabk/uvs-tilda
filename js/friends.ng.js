@@ -12,9 +12,13 @@ class UvsFriend {
         this.id = dto.id;
         this.name = dto.name;
         this.description = dto.description;
-        this.imageUrl = dto.cover[0].url;
         this.donationLevel = this.getUvsDonationLevel(dto.donationLevel);
-        this.facebook = dto.facebook;
+
+        let facebook = dto.facebook;
+        if (!facebook.startsWith('https://')) facebook = 'https://' + facebook;
+        this.facebook = facebook;
+
+        if (dto.image) this.imageUrl = dto.image[0].url;
     }
 
     getUvsDonationLevel(levelName) {
@@ -44,10 +48,10 @@ class UvsFriend {
 
 function getFriends() {
     //GET friends from Airtable
-    //return $.get(URL_TO_REPLACE);
+    return $.get('http://uvscrm.herokuapp.com/get_uvs_friends');
 
     //IMPORTANT: this line fakes API response!
-    return $.Deferred().resolve(fakeUvsFriendsResponse).promise();
+    //return $.Deferred().resolve(fakeUvsFriendsResponse).promise();
 }
 
 //Angularjs
@@ -98,10 +102,13 @@ function FriendsController($scope) {
 
     getFriends()
         .done(response => {
-            const friends = response.map(dto => new UvsFriend(dto));
+            const friends = response.map(o => o.fields).map(dto => new UvsFriend(dto));
             friends.forEach(f => f.infoIsVisible = false); //set infoIsVisible for all elements
-            $scope.friends = friends;
 
+            //because of AJAX call delay
+            $scope.$evalAsync(() => {
+                $scope.friends = friends;
+            });
             console.log('GET friends success', response, friends);
         })
         .fail(error => {
