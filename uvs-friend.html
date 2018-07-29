@@ -61,12 +61,22 @@
 
         .friend-card-body {
             position: absolute;
+            top: -1px; /* because of border */
+            left: -1px; /* because of border */
             background-color: #ddd;
             border: 1px solid rgba(0, 0, 0, .125);
             border-radius: .25rem;
             height: auto;
             z-index: 100;
             text-align: center;
+        }
+
+        .friend-preview-overflow {
+            overflow: hidden;
+        }
+
+        img.friend-preview {
+            object-fit: cover;
         }
 
         .friend-facebook {
@@ -78,7 +88,7 @@
             flex-wrap: wrap;
             flex-direction: row;
             justify-content: center;
-            
+
             /* because diff between preview and hover less or equal 30px, for right cards not to be over screen */
             padding: 0 30px;
         }
@@ -90,9 +100,10 @@
         <div class="container" ng-controller="FriendsController" ng-cloak>
             <div ng-repeat="donationLevel in donationLevels" class="row donation-container">
                 <div ng-repeat="friend in getFriendsForDonationLevel(donationLevel)" ng-mouseenter="friend.infoIsVisible=true" ng-mouseleave="friend.infoIsVisible=false"
-                    ng-touchend="onFriendTouchend(friend)" ng-class="friend.getPreviewClass()" class="card friend-card">
+                    ng-touchend="onFriendTouchend(friend)" ng-class="[friend.getPreviewClass(), {'friend-preview-overflow': !friend.infoIsVisible}]"
+                    class="card friend-card">
                     <div>
-                        <img class="card-img-top" ng-src="{{friend.imageUrl}}" />
+                        <img class="card-img-top friend-preview" ng-class="friend.getPreviewClass()" ng-src="{{friend.imageUrl}}" />
                     </div>
                     <div class="card-body friend-card-body" ng-show="friend.infoIsVisible" ng-class="friend.getHoveredClass()">
                         <img class="card-img-top" ng-src="{{friend.imageUrl}}" />
