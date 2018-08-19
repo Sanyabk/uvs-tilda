@@ -8,7 +8,9 @@
 
     <!-- Bootrstrap 4 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
     <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/friends.css">
     <link rel="stylesheet" href="/styles.css" />
 
     <!-- Angular.js -->
@@ -16,94 +18,18 @@
 </head>
 
 <body>
-    <style>
-        .friend-0-preview {
-            width: 70px;
-            height: 70px;
-        }
-
-        .friend-0-hovered {
-            width: 100px;
-            height: 100px;
-        }
-
-        .friend-1-preview {
-            width: 100px;
-            height: 100px;
-        }
-
-        .friend-1-hovered {
-            width: 130px;
-            height: 130px;
-        }
-
-        .friend-2-preview {
-            width: 130px;
-            height: 130px;
-        }
-
-        .friend-2-hovered {
-            width: 160px;
-            height: 160px;
-        }
-
-        /* for absolute tile to start right from the top left of preview */
-
-        .card-body {
-            padding: 0;
-        }
-
-        .friend-card {
-            position: relative;
-            top: 0;
-            left: 0;
-        }
-
-        .friend-card-body {
-            position: absolute;
-            top: -1px; /* because of border */
-            left: -1px; /* because of border */
-            background-color: #ddd;
-            border: 1px solid rgba(0, 0, 0, .125);
-            border-radius: .25rem;
-            height: auto;
-            z-index: 100;
-            text-align: center;
-        }
-
-        .friend-preview-overflow {
-            overflow: hidden;
-        }
-
-        img.friend-preview {
-            object-fit: cover;
-        }
-
-        .friend-facebook {
-            padding: 0;
-        }
-
-        .donation-container {
-            display: flex;
-            flex-wrap: wrap;
-            flex-direction: row;
-            justify-content: center;
-
-            /* because diff between preview and hover less or equal 30px, for right cards not to be over screen */
-            padding: 0 30px;
-        }
-    </style>
-    <div ng-app="app" style="min-width: 350px;">
+    <div ng-app="app">
         <br />
         <!-- To create space between Tilda blocks -->
 
         <div class="container" ng-controller="FriendsController" ng-cloak>
             <div ng-repeat="donationLevel in donationLevels" class="row donation-container">
-                <div ng-repeat="friend in getFriendsForDonationLevel(donationLevel)" ng-mouseenter="friend.infoIsVisible=true" ng-mouseleave="friend.infoIsVisible=false"
-                    ng-touchend="onFriendTouchend(friend)" ng-class="[friend.getPreviewClass(), {'friend-preview-overflow': !friend.infoIsVisible}]"
+                <div ng-repeat="friend in getFriendsForDonationLevel(donationLevel)" ng-click="onFriendSelected(friend)" 
+                    ng-touchend="onFriendSelected(friend)" ng-class="[friend.getPreviewClass(), {'friend-preview-overflow': !friend.infoIsVisible}]"
                     class="card friend-card">
-                    <div>
-                        <img class="card-img-top friend-preview" ng-class="friend.getPreviewClass()" ng-src="{{friend.imageUrl}}" />
+                    <div class="friend-preview">
+                        <img class="card-img-top" ng-class="friend.getPreviewClass()" ng-src="{{friend.imageUrl}}" />
+                        <div class="overlay"></div>
                     </div>
                     <div class="card-body friend-card-body" ng-show="friend.infoIsVisible" ng-class="friend.getHoveredClass()">
                         <img class="card-img-top" ng-src="{{friend.imageUrl}}" />

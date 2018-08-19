@@ -48,7 +48,7 @@ class UvsFriend {
 
 function getFriends() {
     //GET friends from Airtable
-    return $.get('http://uvscrm.herokuapp.com/get_uvs_friends');
+    return $.get('https://uvscrm.herokuapp.com/get_uvs_friends');
 
     //IMPORTANT: this line fakes API response!
     //return $.Deferred().resolve(fakeUvsFriendsResponse).promise();
@@ -94,7 +94,7 @@ function FriendsController($scope) {
             : [];
     };
 
-    $scope.onFriendTouchend = function (friend) {
+    $scope.onFriendSelected = function (friend) {
         const selectedFriend = $scope.friends.find(f => f.infoIsVisible === true);
         $scope.friends.forEach(f => f.infoIsVisible = false);
         if (selectedFriend !== friend) friend.infoIsVisible = true; //if was touch on selected friend - not select again

@@ -1,0 +1,84 @@
+.friend-0-preview {
+    width: 70px;
+    height: 70px;
+}
+
+.friend-0-hovered {
+    width: 100px;
+    height: 100px;
+}
+
+.friend-1-preview {
+    width: 100px;
+    height: 100px;
+}
+
+.friend-1-hovered {
+    width: 130px;
+    height: 130px;
+}
+
+.friend-2-preview {
+    width: 130px;
+    height: 130px;
+}
+
+.friend-2-hovered {
+    width: 160px;
+    height: 160px;
+}
+
+/* for absolute tile to start right from the top left of preview */
+
+.card-body {
+    padding: 0;
+}
+
+.friend-card {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+.friend-preview:hover .overlay {
+    background: none;
+}
+
+.overlay {
+    width:100%;
+    height:100%;
+    position:absolute;
+    top: 0;
+    left: 0;
+    background-color:#000;
+    opacity:0.25;
+}
+.friend-card-body {
+    position: absolute;
+    top: -1px; /* because of border */
+    left: -1px; /* because of border */
+    background-color: #ddd;
+    border: 1px solid rgba(0, 0, 0, .125);
+    border-radius: .25rem;
+    height: auto;
+    z-index: 100;
+    text-align: center;
+}
+
+.friend-preview-overflow {
+    overflow: hidden;
+}
+
+.friend-facebook {
+    padding: 0;
+}
+
+.donation-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+
+    /* because diff between preview and hover less or equal 30px, for right cards not to be over screen */
+    padding: 0 30px;
+}
