@@ -103,8 +103,6 @@ function FriendsController($scope) {
     };
 
     $scope.resetSelectedFriend = function (event) {
-        console.log(event);
-
         const originalEvent = event.originalEvent ? event.originalEvent : event;
         const isFriendClick = originalEvent.path.some(e => e.classList && e.classList.contains('friend-preview'));
 

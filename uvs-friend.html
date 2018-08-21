@@ -26,7 +26,7 @@
             <div class="reset-layer" ng-click="resetSelectedFriend($event)"></div>
             <div ng-repeat="donationLevel in donationLevels" class="row donation-container">
                 <div ng-repeat="friend in getFriendsForDonationLevel(donationLevel)" ng-click="onFriendSelected(friend)" 
-                    ng-touchend="onFriendSelected(friend)" ng-class="[friend.getPreviewClass(), {'friend-preview-overflow': !friend.infoIsVisible}]"
+                    ng-class="[friend.getPreviewClass(), {'friend-preview-overflow': !friend.infoIsVisible}]"
                     class="card friend-card">
                     <div class="friend-preview">
                         <img class="card-img-top" ng-class="friend.getPreviewClass()" ng-src="{{friend.imageUrl}}" />

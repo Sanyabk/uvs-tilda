@@ -115,42 +115,62 @@ export const fakeEventsResponse = [
     }
 ];
 
-const friend1 = {
-    id: 1,
-    name: "John Doe",
-    description: "Social Fighter",
-    cover: [
-        {
-            url: "https://sprogsyd.dk/wp-content/uploads/2017/07/476085198-1.jpg"
+const names = [
+    "John Doe",
+    "Mary Ann",
+    "Pablo Escobar",
+    "Blablabla carcarcarcar",
+];
+
+const descriptions = [
+    "Cartel Leader",
+    "Social Fighter",
+    "Business Analyst",
+];
+
+const avatars = [
+    "https://images.vexels.com/media/users/3/145908/preview2/52eabf633ca6414e60a7677b0b917d92-male-avatar-maker.jpg",
+    "https://www.w3schools.com/howto/img_avatar2.png",
+    "https://freeiconshop.com/wp-content/uploads/edd/person-flat.png",
+    "http://img.charahub.com/c318070_b167721e753dc044cc6a77e3c3a3e395.jpg",
+    "https://pm1.narvii.com/6776/9df16f93193829360c081acc6b93e553cd1c36f3v2_hq.jpg",
+
+];
+
+const donationLevels = [
+    "XL",
+    "L",
+    "M",
+]
+function getRandomElement(array) {
+    const index = Math.floor(Math.random() * array.length);
+    return array[index];
+}
+
+function getRandomFriend() {
+    
+    const name = getRandomElement(names);
+    const description = getRandomElement(descriptions);
+    const avatar = getRandomElement(avatars);
+    const donationLevel = getRandomElement(donationLevels);
+
+    const friend = {
+        fields: {
+            id: 3,
+            name: name,
+            description: description,
+            image: [
+                {
+                    url: avatar
+                }
+            ],
+            donationLevel: donationLevel,
+            facebook: "https://www.facebook.com/akhiora",
         }
-    ],
-    donationLevel: "M",
-    facebook: "https://www.facebook.com/illia.poltavets",
-};
-const friend2 = {
-    id: 2,
-    name: "Mary Ann",
-    description: "Business Analyst",
-    cover: [
-        {
-            url: "https://www.w3schools.com/howto/img_avatar2.png"
-        }
-    ],
-    donationLevel: "L",
-    facebook: "https://www.facebook.com/olia.did",
-};
-const friend3 = {
-    id: 3,
-    name: "Pablo Escobar",
-    description: "Cartel Leader",
-    cover: [
-        {
-            url: "https://freeiconshop.com/wp-content/uploads/edd/person-flat.png"
-        }
-    ],
-    donationLevel: "XL",
-    facebook: "https://www.facebook.com/akhiora",
-};
+    };
+    return friend;
+}
+
 /* UVS Friends */
 const multiplyObject = (obj, times) => {
     let objs = [];
@@ -163,8 +183,17 @@ const multiplyObject = (obj, times) => {
 }
 
 export const fakeUvsFriendsResponse = [
-    ...multiplyObject(friend1, 55),
-    ...multiplyObject(friend2, 25),
-    ...multiplyObject(friend3, 15),
+    ...multiplyObject(getRandomFriend(), 10),
+    ...multiplyObject(getRandomFriend(), 10),
+    ...multiplyObject(getRandomFriend(), 10),
+    ...multiplyObject(getRandomFriend(), 10),
+    ...multiplyObject(getRandomFriend(), 10),
+    ...multiplyObject(getRandomFriend(), 10),
+    ...multiplyObject(getRandomFriend(), 10),
+    ...multiplyObject(getRandomFriend(), 10),
+    ...multiplyObject(getRandomFriend(), 10),
+    ...multiplyObject(getRandomFriend(), 10),
+    ...multiplyObject(getRandomFriend(), 10),
+    ...multiplyObject(getRandomFriend(), 10),
 ]
 

@@ -70,6 +70,10 @@
     overflow: hidden;
 }
 
+.friend-preview img {
+    object-fit: cover;
+}
+
 .friend-facebook {
     padding: 0;
 }
