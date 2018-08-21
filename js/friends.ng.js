@@ -89,6 +89,8 @@ function FriendsController($scope) {
     ];
 
     $scope.getFriendsForDonationLevel = function (donationLevel) {
+        //for test
+        //.map(f => {f.id = i++; f.donationLevel = donationLevel; return f;})
         return $scope.friends
             ? $scope.friends.filter(f => f.donationLevel === donationLevel)
             : [];
@@ -98,7 +100,16 @@ function FriendsController($scope) {
         const selectedFriend = $scope.friends.find(f => f.infoIsVisible === true);
         $scope.friends.forEach(f => f.infoIsVisible = false);
         if (selectedFriend !== friend) friend.infoIsVisible = true; //if was touch on selected friend - not select again
-    }
+    };
+
+    $scope.resetSelectedFriend = function (event) {
+        console.log(event);
+
+        const originalEvent = event.originalEvent ? event.originalEvent : event;
+        const isFriendClick = originalEvent.path.some(e => e.classList && e.classList.contains('friend-preview'));
+
+        if (!isFriendClick) $scope.friends.forEach(f => f.infoIsVisible = false);
+    };
 
     getFriends()
         .done(response => {

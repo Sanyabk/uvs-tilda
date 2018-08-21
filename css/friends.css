@@ -1,31 +1,31 @@
 .friend-0-preview {
-    width: 70px;
-    height: 70px;
+    width: 110px;
+    height: 110px;
 }
 
 .friend-0-hovered {
-    width: 100px;
-    height: 100px;
+    width: 110px;
+    height: 110px;
 }
 
 .friend-1-preview {
-    width: 100px;
-    height: 100px;
+    width: 140px;
+    height: 140px;
 }
 
 .friend-1-hovered {
-    width: 130px;
-    height: 130px;
+    width: 170px;
+    height: 170px;
 }
 
 .friend-2-preview {
-    width: 130px;
-    height: 130px;
+    width: 170px;
+    height: 170px;
 }
 
 .friend-2-hovered {
-    width: 160px;
-    height: 160px;
+    width: 200px;
+    height: 200px;
 }
 
 /* for absolute tile to start right from the top left of preview */
@@ -53,6 +53,7 @@
     background-color:#000;
     opacity:0.25;
 }
+
 .friend-card-body {
     position: absolute;
     top: -1px; /* because of border */
@@ -61,11 +62,11 @@
     border: 1px solid rgba(0, 0, 0, .125);
     border-radius: .25rem;
     height: auto;
-    z-index: 100;
+    z-index: 10;
     text-align: center;
 }
 
-.friend-preview-overflow {
+.friend-preview {
     overflow: hidden;
 }
 
@@ -81,4 +82,12 @@
 
     /* because diff between preview and hover less or equal 30px, for right cards not to be over screen */
     padding: 0 30px;
+}
+
+.reset-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }

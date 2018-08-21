@@ -23,6 +23,7 @@
         <!-- To create space between Tilda blocks -->
 
         <div class="container" ng-controller="FriendsController" ng-cloak>
+            <div class="reset-layer" ng-click="resetSelectedFriend($event)"></div>
             <div ng-repeat="donationLevel in donationLevels" class="row donation-container">
                 <div ng-repeat="friend in getFriendsForDonationLevel(donationLevel)" ng-click="onFriendSelected(friend)" 
                     ng-touchend="onFriendSelected(friend)" ng-class="[friend.getPreviewClass(), {'friend-preview-overflow': !friend.infoIsVisible}]"
